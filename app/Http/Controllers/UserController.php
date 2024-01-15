@@ -54,7 +54,9 @@ class UserController extends Controller
 
         if ($user !== null) {
             // User Login -> JWT Token Issue
-            $token = JWTToken::CreateToken($request->input('email'), $user->id, $user->role);
+            // Update the UserLogin function in UserController
+            $token=JWTToken::CreateToken($request->input('email'),$user->id);
+
 
             if ($user->role == 1) {
                 // Redirect to user dashboard

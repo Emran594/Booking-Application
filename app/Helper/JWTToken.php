@@ -9,19 +9,19 @@ use Firebase\JWT\Key;
 class JWTToken
 {
 
-    public static function CreateToken($userEmail, $userID, $userType): string
-    {
-        $key = env('JWT_KEY');
-        $payload = [
-            'iss' => 'laravel-token',
-            'iat' => time(),
-            'exp' => time() + 60 * 60,
-            'userEmail' => $userEmail,
-            'userID' => $userID,
-            'userType' => $userType,
-        ];
-        return JWT::encode($payload, $key, 'HS256');
-    }
+// Update the CreateToken method in JWTToken class
+public static function CreateToken($userEmail,$userID):string{
+    $key =env('JWT_KEY');
+    $payload=[
+        'iss'=>'laravel-token',
+        'iat'=>time(),
+        'exp'=>time()+60*60,
+        'userEmail'=>$userEmail,
+        'userID'=>$userID
+    ];
+   return JWT::encode($payload,$key,'HS256');
+}
+
 
 
 
