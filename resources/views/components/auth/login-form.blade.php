@@ -15,7 +15,7 @@
 
                 <div class="mb-3">
                     <div class="float-end">
-                        <a href="auth-pass-reset-cover.html" class="text-muted">Forgot password?</a>
+                        <a href="{{ url('/forgot-pass') }}" class="text-muted">Forgot password?</a>
                     </div>
                     <label class="form-label" for="password">Password</label>
                     <label for="password" class="form-label">Email</label>

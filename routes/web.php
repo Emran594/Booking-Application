@@ -24,7 +24,12 @@ Route::get('/', function () {
 Route::post('/user-registration',[UserController::class,'UserRegistration']);
 Route::post('/user-login',[UserController::class,'UserLogin']);
 Route::get('/userRegistration',[UserController::class,'RegistrationPage']);
-
+Route::get('/forgot-pass',[UserController::class,'forgotPassword']);
+Route::get('/verify-email',[UserController::class,'emailVerify']);
+Route::get('/set-password',[UserController::class,'passwordSet']);
+Route::post('/send-otp',[UserController::class,'SendOTPCode']);
+Route::post('/verify-otp',[UserController::class,'VerifyOTP']);
+Route::post('/reset-password',[UserController::class,'ResetPassword'])->middleware([TokenVerificationMiddleware::class]);
 Route::get('/admindashboard',[UserController::class,'admindashboard'])->middleware([TokenVerificationMiddleware::class]);
 Route::get('/userdashboard',[UserController::class,'userdashboard'])->middleware([TokenVerificationMiddleware::class]);
 
