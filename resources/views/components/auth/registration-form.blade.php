@@ -2,38 +2,57 @@
     <div class="p-lg-5 p-4">
         <div>
             <h5 class="text-primary">Register Account</h5>
-            <p class="text-muted">Get your Free Velzon account now.</p>
+            <p class="text-muted">Get your Booking account now.</p>
         </div>
 
         <div class="mt-4">
-            <form class="needs-validation" novalidate action="https://themesbrand.com/velzon/html/minimal/index.html">
+            <form class="needs-validation" novalidate action="{{ url('/user-registration') }}" method="POST">
+                @csrf
+
 
                 <div class="mb-3">
-                    <label for="useremail" class="form-label">Email <span class="text-danger">*</span></label>
-                    <input type="email" class="form-control" id="useremail" placeholder="Enter email address" required>
+                    <label for="fname" class="form-label">First Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter username" required>
                     <div class="invalid-feedback">
-                        Please enter email
+                        Please enter Your First Name
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="username" placeholder="Enter username" required>
+                    <label for="lname" class="form-label">Last Name<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="lname" name="lname" placeholder="Enter Your Last Name" required>
                     <div class="invalid-feedback">
-                        Please enter username
+                        Please enter Your Last Name
                     </div>
                 </div>
-
                 <div class="mb-3">
-                    <label class="form-label" for="password-input">Password</label>
-                    <div class="position-relative auth-pass-inputgroup">
-                        <input type="password" class="form-control pe-5 password-input" onpaste="return false" placeholder="Enter password" id="password-input" aria-describedby="passwordInput" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
-                        <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
-                        <div class="invalid-feedback">
-                            Please enter password
-                        </div>
+                    <label for="mobile" class="form-label">Phone <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Enter Your Phone" required>
+                    <div class="invalid-feedback">
+                        Please enter Your Phone
                     </div>
                 </div>
-
+                <div class="mb-3">
+                    <label for="email" class="form-label">Enter Your Email <span class="text-danger">*</span></label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter Your Last Name" required>
+                    <div class="invalid-feedback">
+                        Please enter Email
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Enter Your Email <span class="text-danger">*</span></label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter Your Last Name" required>
+                    <div class="invalid-feedback">
+                        Please enter Password
+                    </div>
+                </div>
+                {{-- <div class="mb-3">
+                    <label class="form-label" for="password-input">Select User Type</label>
+                    <select class="form-select mb-3" aria-label="Default select example">
+                        <option selected>Select User Type </option>
+                        <option value="1">User</option>
+                        <option value="2">Admin</option>
+                    </select>
+                </div> --}}
                 <div class="mb-4">
                     <p class="mb-0 fs-12 text-muted fst-italic">By registering you agree to the Velzon <a href="#" class="text-primary text-decoration-underline fst-normal fw-medium">Terms of Use</a></p>
                 </div>

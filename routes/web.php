@@ -22,3 +22,9 @@ Route::get('/', function () {
 Route::post('/user-registration',[UserController::class,'UserRegistration']);
 Route::post('/user-login',[UserController::class,'UserLogin']);
 Route::get('/userRegistration',[UserController::class,'RegistrationPage']);
+
+Route::get('/admindashboard',[UserController::class,'admindashboard']);
+Route::get('/userdashboard',[UserController::class,'userdashboard']);
+
+
+Route::get('/logout',[UserController::class,'UserLogout']);

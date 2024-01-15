@@ -7,10 +7,20 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Redirect;
+
 class UserController extends Controller
 {
     public function RegistrationPage(){
         return view('pages.auth.registration');
+    }
+
+    public function admindashboard(){
+        return view('pages.admin.index');
+    }
+
+    public function userdashboard(){
+        return view('pages.user.index');
     }
 
     function UserRegistration(Request $request){
@@ -20,7 +30,6 @@ class UserController extends Controller
                 'lname' => $request->input('lname'),
                 'mobile' => $request->input('mobile'),
                 'email' => $request->input('email'),
-                'role' => $request->input('role'),
                 'password' => $request->input('password'),
             ]);
             return response()->json([
@@ -31,33 +40,48 @@ class UserController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'status' => 'failed',
-                'message' => 'User Registration Failed'
+                'message' => $e
             ],200);
 
         }
     }
-    function UserLogin(Request $request){
-        $count=User::where('email','=',$request->input('email'))
-             ->where('password','=',$request->input('password'))
-             ->select('id')->first();
 
-        if($count!==null){
-            // User Login-> JWT Token Issue
-            $token=JWTToken::CreateToken($request->input('email'),$count->id,$count->role);
-            return response()->json([
-                'status' => 'success',
-                'message' => 'User Login Successful',
-            ],200)->cookie('token',$token,time()+60*24*30);
-        }
-        else{
+    function UserLogin(Request $request)
+    {
+        $user = User::where('email', $request->input('email'))
+            ->where('password', $request->input('password'))
+            ->first();
+
+        if ($user !== null) {
+            // User Login -> JWT Token Issue
+            $token = JWTToken::CreateToken($request->input('email'), $user->id, $user->role);
+
+            if ($user->role == 1) {
+                // Redirect to user dashboard
+                return redirect('/userdashboard')->withCookie(cookie('token', $token, time() + 60 * 24 * 30));
+            } elseif ($user->role == 2) {
+                // Redirect to admin dashboard
+                return redirect('/admindashboard')->withCookie(cookie('token', $token, time() + 60 * 24 * 30));
+            } else {
+                // Handle other roles if needed
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'Invalid user role',
+                ], 200);
+            }
+        } else {
             return response()->json([
                 'status' => 'failed',
-                'message' => 'unauthorized'
-            ],200);
-
+                'message' => 'Unauthorized',
+            ], 200);
         }
+    }
 
-     }
+    function UserLogout(){
+        return redirect('/')->cookie('token','',-1);
+    }
+
+
 
 
 }
