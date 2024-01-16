@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TripController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\TokenVerificationMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -29,9 +30,17 @@ Route::get('/verify-email',[UserController::class,'emailVerify']);
 Route::get('/set-password',[UserController::class,'passwordSet']);
 Route::post('/send-otp',[UserController::class,'SendOTPCode']);
 Route::post('/verify-otp',[UserController::class,'VerifyOTP']);
-Route::post('/reset-password',[UserController::class,'ResetPassword'])->middleware([TokenVerificationMiddleware::class]);
-Route::get('/admindashboard',[UserController::class,'admindashboard'])->middleware([TokenVerificationMiddleware::class]);
-Route::get('/userdashboard',[UserController::class,'userdashboard'])->middleware([TokenVerificationMiddleware::class]);
-
-
 Route::get('/logout',[UserController::class,'UserLogout']);
+
+
+
+Route::middleware(['token.verify'])->group(function () {
+    Route::get('/userdashboard', [UserController::class, 'userdashboard']);
+    Route::get('/admindashboard', [UserController::class, 'admindashboard']);
+    Route::post('/reset-password',[UserController::class,'ResetPassword']);
+
+    Route::controller(TripController::class)->group(function(){
+        Route::get('/trip','trip');
+    });
+});
+
