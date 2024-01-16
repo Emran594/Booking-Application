@@ -92,70 +92,66 @@ class UserController extends Controller
 
 
     function SendOTPCode(Request $request){
+    $email = $request->input('email');
+    $otp = rand(1000, 9999);
+    $count = User::where('email', '=', $email)->count();
 
-        $email=$request->input('email');
-        $otp=rand(1000,9999);
-        $count=User::where('email','=',$email)->count();
+    if ($count == 1) {
+        // OTP Email Address
+        Mail::to($email)->send(new OTPMail($otp));
+        // OTP Code Table Update
+        User::where('email', '=', $email)->update(['otp' => $otp]);
 
-        if($count==1){
-            // OTP Email Address
-            Mail::to($email)->send(new OTPMail($otp));
-            // OTO Code Table Update
-            User::where('email','=',$email)->update(['otp'=>$otp]);
-
-            return redirect('/verify-email')->with('status', 'success')->with('message', '4 Digit OTP Code has been send to your email !');
-        }
-        else{
-            return response()->json([
-                'status' => 'failed',
-                'message' => 'unauthorized'
-            ]);
-        }
+        // Store email in cookie
+        return redirect('/verify-email')->withCookie('email', $email)->with('status', 'success')->with('message', '4 Digit OTP Code has been sent to your email!');
+    } else {
+        return response()->json([
+            'status' => 'failed',
+            'message' => 'unauthorized'
+        ]);
     }
+}
 
+function VerifyOTP(Request $request)
+{
+    $email = $request->cookie('email'); // Retrieve email from cookie
+    $otp = $request->input('otp');
+    $count = User::where('email', '=', $email)
+        ->where('otp', '=', $otp)->count();
 
-    function VerifyOTP(Request $request)
-    {
-        $email = $request->input('email');
-        $otp = $request->input('otp');
-        $count = User::where('email', '=', $email)
-            ->where('otp', '=', $otp)->count();
-    
-        if ($count == 1) {
-            // Database OTP Update
-            User::where('email', '=', $email)->update(['otp' => '0']);
-    
-            // Pass Reset Token Issue
-            $token = JWTToken::CreateTokenForSetPassword($request->input('email'));
-    
-            // Redirect to "/set-password" URL after successful OTP verification
-            return redirect('/set-password')->withCookie('token', $token, 60 * 24 * 30);
-        } else {
-            return response()->json([
-                'status' => 'failed',
-                'message' => 'unauthorized'
-            ], 200);
-        }
+    if ($count == 1) {
+        // Database OTP Update
+        User::where('email', '=', $email)->update(['otp' => '0']);
+
+        // Pass Reset Token Issue
+        $token = JWTToken::CreateTokenForSetPassword($email);
+
+        // Redirect to "/set-password" URL after successful OTP verification
+        return redirect('/set-password')->withCookie('token', $token, 60 * 24 * 30);
+    } else {
+        return response()->json([
+            'status' => 'failed',
+            'message' => 'unauthorized'
+        ], 200);
     }
+}
 
+function ResetPassword(Request $request)
+{
+    try {
+        $email = $request->cookie('email'); // Retrieve email from cookie
+        $password = $request->input('password');
+        User::where('email', '=', $email)->update(['password' => $password]);
 
-    function ResetPassword(Request $request){
-        try{
-            $email=$request->header('email');
-            $password=$request->input('password');
-            User::where('email','=',$email)->update(['password'=>$password]);
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Request Successful',
-            ],200);
+        return redirect('/')->with('status', 'success')->with('message', 'User Password Updated Successfully');
 
-        }catch (Exception $exception){
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'Something Went Wrong',
-            ],200);
-        }
+    } catch (Exception $exception) {
+        return response()->json([
+            'status' => 'fail',
+            'message' => 'Something Went Wrong',
+        ], 200);
     }
+}
 
 
 

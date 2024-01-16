@@ -13,44 +13,17 @@
         </div>
 
         <div class="mt-4">
-            <form autocomplete="off" action="{{ url('/verify-otp') }}" method="POST">
+            <form action="{{ url('/verify-otp') }}" method="POST">
                 @csrf
-                <div class="row">
-                    <div class="col-3">
-                        <div class="mb-3">
-                            <label for="digit1-input" class="visually-hidden">Digit 1</label>
-                            <input type="text" class="form-control form-control-lg bg-light border-light text-center" onkeyup="moveToNext(1, event)" maxLength="1" id="digit1-input">
-                        </div>
-                    </div><!-- end col -->
-                
-                    <div class="col-3">
-                        <div class="mb-3">
-                            <label for="digit2-input" class="visually-hidden">Digit 2</label>
-                            <input type="text" class="form-control form-control-lg bg-light border-light text-center" onkeyup="moveToNext(2, event)" maxLength="1" id="digit2-input">
-                        </div>
-                    </div><!-- end col -->
-                
-                    <div class="col-3">
-                        <div class="mb-3">
-                            <label for="digit3-input" class="visually-hidden">Digit 3</label>
-                            <input type="text" class="form-control form-control-lg bg-light border-light text-center" onkeyup="moveToNext(3, event)" maxLength="1" id="digit3-input">
-                        </div>
-                    </div><!-- end col -->
-                
-                    <div class="col-3">
-                        <div class="mb-3">
-                            <label for="digit4-input" class="visually-hidden">Digit 4</label>
-                            <input type="text" class="form-control form-control-lg bg-light border-light text-center" onkeyup="moveToNext(4, event)" maxLength="1" id="digit4-input">
-                        </div>
-                    </div><!-- end col -->
+                <div class="mb-4">
+                    <label class="form-label">OTP</label>
+                    <input type="text" name="otp" class="form-control" id="otp" placeholder="Enter OTP">
                 </div>
 
-                <div class="mt-3">
-                    <button type="button" class="btn btn-success w-100">Confirm</button>
+                <div class="text-center mt-4">
+                    <button class="btn btn-success w-100" type="submit">Confirm</button>
                 </div>
-
             </form>
-
         </div>
 
         <div class="mt-5 text-center">
