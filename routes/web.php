@@ -41,6 +41,8 @@ Route::middleware(['token.verify'])->group(function () {
 
     Route::controller(TripController::class)->group(function(){
         Route::get('/trip','trip');
+        Route::post('/store-trips','storeTrips');
+        Route::get('/deleteTrip/{id}','deleteTrip');
     });
 });
 

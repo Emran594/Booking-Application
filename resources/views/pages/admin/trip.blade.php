@@ -90,49 +90,39 @@
                                 <table class="table align-middle" id="customerTable">
                                     <thead class="table-light text-muted">
                                         <tr>
-                                            <th scope="col" style="width: 50px;">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="checkAll" value="option">
-                                                </div>
-                                            </th>
-
-                                            <th class="sort" data-sort="customer_name">Customer</th>
-                                            <th class="sort" data-sort="email">Email</th>
-                                            <th class="sort" data-sort="phone">Phone</th>
-                                            <th class="sort" data-sort="date">Joining Date</th>
+                                            <th class="sort" data-sort="customer_name">Trip Title</th>
+                                            <th class="sort" data-sort="email">Date</th>
+                                            <th class="sort" data-sort="phone">From Location</th>
+                                            <th class="sort" data-sort="date">Destination</th>
+                                            <th class="sort" data-sort="date">Bus Name</th>
+                                            <th class="sort" data-sort="status">Fare</th>
                                             <th class="sort" data-sort="status">Status</th>
                                             <th class="sort" data-sort="action">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody class="list form-check-all">
+                                        @foreach($trips as $trip)
                                         <tr>
-                                            <th scope="row">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="chk_child" value="option1">
-                                                </div>
-                                            </th>
-                                            <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#VZ2101</a></td>
-                                            <td class="customer_name">Mary Cousar</td>
-                                            <td class="email">marycousar@velzon.com</td>
-                                            <td class="phone">580-464-4694</td>
-                                            <td class="date">06 Apr, 2021</td>
-                                            <td class="status"><span class="badge bg-success-subtle text-success text-uppercase">Active</span>
-                                            </td>
+                                            <td class="customer_name">{{ $trip->title }}</td>
+                                            <td class="email">{{ $trip->date }}</td>
+                                            <td class="phone">{{ $trip->fromLocation->name }}</td>
+                                            <td class="date">{{ $trip->toLocation->name }}</td>
+                                            <td class="date">{{ $trip->bus->bus_name }}</td>
+                                            <td class="status">{{ $trip->fare }}</td>
+                                            <td class="status"><span class="badge bg-success-subtle text-success text-uppercase">{{ $trip->status }}</span></td>
                                             <td>
                                                 <ul class="list-inline hstack gap-2 mb-0">
                                                     <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                                        <a href="#showModal" data-bs-toggle="modal" class="text-primary d-inline-block edit-item-btn">
-                                                            <i class="ri-pencil-fill fs-16"></i>
-                                                        </a>
+                                                        <a href="">Edit</a>
                                                     </li>
                                                     <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
-                                                        <a class="text-danger d-inline-block remove-item-btn" data-bs-toggle="modal" href="#deleteRecordModal">
-                                                            <i class="ri-delete-bin-5-fill fs-16"></i>
-                                                        </a>
+                                                        <a href="{{ url('/deleteTrip', $trip->id) }}" onclick="return confirm('Are you sure you want to delete this trip?')">Delete</a>
                                                     </li>
                                                 </ul>
                                             </td>
                                         </tr>
+                                    @endforeach
+
                                     </tbody>
                                 </table>
                                 <div class="noresult" style="display: none">
@@ -165,44 +155,54 @@
                                         <h5 class="modal-title" id="exampleModalLabel"></h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
                                     </div>
-                                    <form class="tablelist-form" autocomplete="off">
+                                    <form class="tablelist-form" autocomplete="off" action="{{ '/store-trips' }}" method="POST">
+                                        @csrf
                                         <div class="modal-body">
-
                                             <div class="mb-3">
-                                                <label for="customername-field" class="form-label">Date</label>
-                                                <input type="Date" name="date" id="customername-field" class="form-control" placeholder="Enter name" required />
+                                                <label for="date-field" class="form-label">Date</label>
+                                                <input type="date" name="date" id="date-field" class="form-control" required />
                                             </div>
                                             <div class="mb-3">
-                                                <label for="customername-field" class="form-label">Trips Title</label>
-                                                <input type="text" name="title" id="customername-field" class="form-control" placeholder="Enter name" required />
+                                                <label for="title-field" class="form-label">Trips Title</label>
+                                                <input type="text" name="title" id="title-field" class="form-control" required />
                                             </div>
                                             <div class="mb-3">
-                                                <label for="email-field" class="form-label">From Location </label>
-                                                <select class="form-select mb-3" name="from_location" aria-label="Default select example">
-                                                    <option selected>Select From Location </option>
-                                                    <option value="1">User</option>
-                                                    <option value="2">Admin</option>
+                                                <label for="from-location-field" class="form-label">From Location</label>
+                                                <select class="form-select mb-3" name="from_location" id="from-location-field" aria-label="Default select example" required>
+                                                    <option selected>Select From Location</option>
+                                                    @foreach($locations as $location)
+                                                    <option value="{{ $location->id }}">{{ $location->name }}</option>
+                                                @endforeach
                                                 </select>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="email-field" class="form-label">Destination </label>
-                                                <select class="form-select mb-3" name="to_location" aria-label="Default select example">
-                                                    <option selected>Select From Location </option>
-                                                    <option value="1">User</option>
-                                                    <option value="2">Admin</option>
+                                                <label for="to-location-field" class="form-label">Destination</label>
+                                                <select class="form-select mb-3" name="to_location" id="to-location-field" aria-label="Default select example" required>
+                                                    <option selected>Select To Location</option>
+                                                    @foreach($locations as $location)
+                                                    <option value="{{ $location->id }}">{{ $location->name }}</option>
+                                                @endforeach
                                                 </select>
                                             </div>
-
                                             <div class="mb-3">
-                                                <label for="phone-field" class="form-label">Fare</label>
-                                                <input type="text" name="fare" id="phone-field" class="form-control" placeholder="Enter Fare Per Ticket" required />
+                                                <label for="bus-id-field" class="form-label">Bus Name</label>
+                                                <select class="form-select mb-3" name="bus_id" id="bus-id-field" aria-label="Default select example" required>
+                                                    <option selected>Select Bus ID</option>
+                                                    @foreach($buses as $bus)
+                                                    <option value="{{ $bus->id }}">{{ $bus->bus_name }}</option>
+                                                @endforeach
+                                                </select>
                                             </div>
-                                            <div>
+                                            <div class="mb-3">
+                                                <label for="fare-field" class="form-label">Fare</label>
+                                                <input type="text" name="fare" id="fare-field" class="form-control" placeholder="Enter Fare Per Ticket" required />
+                                            </div>
+                                            <div class="mb-3">
                                                 <label for="status-field" class="form-label">Status</label>
-                                                <select class="form-control" data-choices data-choices-search-false name="status" id="status-field"  required>
+                                                <select class="form-control" data-choices data-choices-search-false name="status" id="status-field" required>
                                                     <option value="">Status</option>
-                                                    <option value="Active">Active</option>
-                                                    <option value="Block">Block</option>
+                                                    <option value="active">Active</option>
+                                                    <option value="inactive">In Active</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -210,10 +210,12 @@
                                             <div class="hstack gap-2 justify-content-end">
                                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                                                 <button type="submit" class="btn btn-success" id="add-btn">Add Trip</button>
-                                                <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
+                                                <!-- Add button for updating if needed -->
                                             </div>
                                         </div>
-                                    </form>
+                                    </form
+
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -255,3 +257,19 @@
     <!-- container-fluid -->
 </div>
 @endsection
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('.tablelist-form');
+        const fromLocationField = document.getElementById('from-location-field');
+        const toLocationField = document.getElementById('to-location-field');
+
+        form.addEventListener('submit', function (event) {
+            if (fromLocationField.value === toLocationField.value) {
+                event.preventDefault();
+                alert("From Location and Destination cannot be the same. Please select different locations.");
+            }
+        });
+    });
+</script>
