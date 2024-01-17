@@ -33,11 +33,11 @@
                         </div>
                     </div>
                     <div class="card-body border-bottom-dashed border-bottom">
-                        <form action="{{ route('search-trips')}}" method="GET">
+                        <form action="{{ url('/search-trip') }}" method="GET">
                             <div class="row g-3">
                                 <div class="col-xl-2">
                                     <div class="input-group">
-                                        <input type="date" class="form-control" name="from_location" placeholder="Input From Location" aria-label="Search">
+                                        <input type="date" class="form-control" name="date" placeholder="Input From Location" aria-label="Search">
                                     </div>
                                 </div>
                                 <div class="col-xl-3">
@@ -57,10 +57,62 @@
                                     </select>
                                 </div>
                                 <div class="col-xl-2">
-                                    <button type="button" class="btn btn-primary">Search</button>
+                                    <button type="submit" class="btn btn-primary">Search</button>
                                 </div>
                             </div>
                         </form>
+
+
+                    </div>
+                    <div class="table-responsive table-card mb-1">
+                        <table class="table align-middle" id="customerTable">
+                            <thead class="table-light text-muted">
+                                <tr>
+                                    <th class="sort" data-sort="customer_name">Trip Title</th>
+                                    <th class="sort" data-sort="email">Date</th>
+                                    <th class="sort" data-sort="phone">From Location</th>
+                                    <th class="sort" data-sort="date">Destination</th>
+                                    <th class="sort" data-sort="date">Bus Name</th>
+                                    <th class="sort" data-sort="status">Fare</th>
+                                    <th class="sort" data-sort="status">Status</th>
+                                    <th class="sort" data-sort="action">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="list form-check-all">
+                                @foreach($trips as $trip)
+                                <tr>
+                                    <td class="customer_name">{{ $trip->title }}</td>
+                                    <td class="email">{{ $trip->date }}</td>
+                                    <td class="phone">{{ $trip->fromLocation->name }}</td>
+                                    <td class="date">{{ $trip->toLocation->name }}</td>
+                                    <td class="date">{{ $trip->bus->bus_name }}</td>
+                                    <td class="status">{{ $trip->fare }}</td>
+                                    <td class="status"><span class="badge bg-success-subtle text-success text-uppercase">{{ $trip->status }}</span></td>
+                                    <td>
+                                        <ul class="list-inline hstack gap-2 mb-0">
+                                            <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
+                                                <a href="">Edit</a>
+                                            </li>
+                                            <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
+                                                <a href="{{ url('/deleteTrip', $trip->id) }}" onclick="return confirm('Are you sure you want to delete this trip?')">Delete</a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            @endforeach
+
+                            </tbody>
+                        </table>
+                        <div class="noresult" style="display: none">
+                            <div class="text-center">
+                                <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#25a0e2,secondary:#00bd9d" style="width:75px;height:75px">
+                                </lord-icon>
+                                <h5 class="mt-2">Sorry! No Result Found</h5>
+                                <p class="text-muted mb-0">We've searched more than 150+ TRIPS
+                                    We did not find any
+                                    TRIPS for you search.</p>
+                            </div>
+                        </div>
                     </div>
             </div>
         </div>

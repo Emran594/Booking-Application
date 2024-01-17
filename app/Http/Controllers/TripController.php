@@ -50,7 +50,15 @@ class TripController extends Controller
         }
 
 
+        public function searchTrip(Request $request){
+            $date = $request->input('date');
+            $from_location = $request->input('from_location');
+            $from_location = $request->input('from_location');
+            $to_location = $request->input('to_location');
 
+            $trips = Trip::Where('date',$date)->where('from_location',$from_location)->where('to_location',$to_location)->get();
+            //return view('pages.user.index', compact('trips'));
+        }
 
 
 }
