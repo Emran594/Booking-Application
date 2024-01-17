@@ -24,15 +24,25 @@
         </button>
     </div>
 
-    {{-- <div id="scrollbar">
+    <div id="scrollbar">
         <div class="container-fluid">
 
             <div id="two-column-menu">
             </div>
             <ul class="navbar-nav" id="navbar-nav">
+                <div class="nav-item">
+                    <a class="nav-link menu-link" href="{{ url('/userdashboard') }}">
+                        <i data-feather="home" class="icon-dual"></i> Dashboards
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link menu-link" href="{{ url('/') }}">
+                        <i data-feather="activity" class="layers"></i> Make Trip
+                    </a>
+                </div>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i data-feather="home" class="icon-dual"></i> <span data-key="t-dashboards">Dashboards</span>
+                        <i data-feather="grid" class="Trip"></i> <span data-key="t-dashboards">Settings</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarDashboards">
                         <ul class="nav nav-sm flex-column">
@@ -59,13 +69,10 @@
                             </li>
                         </ul>
                     </div>
-                </li> <!-- end Dashboard Menu -->
-
-
+                </li>
             </ul>
         </div>
-        <!-- Sidebar -->
-    </div> --}}
+    </div>
 
     <div class="sidebar-background"></div>
   </div>

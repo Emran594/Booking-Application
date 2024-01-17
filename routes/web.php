@@ -38,6 +38,7 @@ Route::middleware(['token.verify'])->group(function () {
     Route::get('/userdashboard', [UserController::class, 'userdashboard']);
     Route::get('/admindashboard', [UserController::class, 'admindashboard']);
     Route::post('/reset-password',[UserController::class,'ResetPassword']);
+    Route::get('/search-trips',[UserController::class,'searchTrips']);
 
     Route::controller(TripController::class)->group(function(){
         Route::get('/trip','trip');

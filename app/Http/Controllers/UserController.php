@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Helper\JWTToken;
 use App\Mail\OTPMail;
+use App\Models\Bus;
+use App\Models\Location;
+use App\Models\Trip;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -18,9 +21,25 @@ class UserController extends Controller
     public function admindashboard(){
         return view('pages.admin.index');
     }
+    public function searchTrips(Request $request)
+    {
+        // Retrieve the trips based on the search criteria
+        $date = $request->input('date');
+        $fromLocation = $request->input('from_location');
+        $toLocation = $request->input('to_location');
+
+        $trips = Trip::where('date', $date)
+                    ->where('from_location', $fromLocation)
+                    ->where('to_location', $toLocation)
+                    ->get();
+
+
+        return view('pages.user.index', compact('trips'));
+    }
 
     public function userdashboard(){
-        return view('pages.user.index');
+        $locations = Location::all();
+        return view('pages.user.index', compact('locations'));
     }
 
     public function forgotPassword(){
