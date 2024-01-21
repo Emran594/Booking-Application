@@ -10,6 +10,7 @@ use App\Models\Trip;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
@@ -25,6 +26,20 @@ class UserController extends Controller
     public function userdashboard(){
         $locations = Location::all();
         return view('pages.user.index', compact('locations'));
+    }
+    public function searchTrip(Request $request)
+    {
+
+        $date = $request->input('date');
+        $from_location = $request->input('from_location');
+        $to_location = $request->input('to_location');
+        $trips = Trip::where('date', $date)
+        ->where('from_location', $from_location)
+        ->where('to_location', $to_location)
+        ->get();
+        $locations = Location::all();
+
+         return view('pages.user.index', compact('trips','locations'));
     }
 
     public function forgotPassword(){

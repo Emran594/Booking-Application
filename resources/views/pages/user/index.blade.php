@@ -79,7 +79,29 @@
                                 </tr>
                             </thead>
                             <tbody class="list form-check-all">
-
+                                @if (isset($trips))
+                                    @foreach($trips as $trip)
+                                    <tr>
+                                        <td class="customer_name">{{ $trip->title }}</td>
+                                        <td class="email">{{ $trip->date }}</td>
+                                        <td class="phone">{{ $trip->fromLocation->name }}</td>
+                                        <td class="date">{{ $trip->toLocation->name }}</td>
+                                        <td class="date">{{ $trip->bus->bus_name }}</td>
+                                        <td class="status">{{ $trip->fare }}</td>
+                                        <td class="status"><span class="badge bg-success-subtle text-success text-uppercase">{{ $trip->status }}</span></td>
+                                        <td>
+                                            <ul class="list-inline hstack gap-2 mb-0">
+                                                <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
+                                                    <a href="">Edit</a>
+                                                </li>
+                                                <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
+                                                    <a href="{{ url('/deleteTrip', $trip->id) }}" onclick="return confirm('Are you sure you want to delete this trip?')">Delete</a>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
                         <div class="noresult" style="display: none">

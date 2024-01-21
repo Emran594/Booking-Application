@@ -37,6 +37,7 @@ Route::get('/logout',[UserController::class,'UserLogout']);
 Route::middleware(['token.verify'])->group(function () {
     Route::get('/userdashboard', [UserController::class, 'userdashboard']);
     Route::get('/admindashboard', [UserController::class, 'admindashboard']);
+    Route::get('/search-trip', [UserController::class, 'searchTrip']);
     Route::post('/reset-password',[UserController::class,'ResetPassword']);
 
     Route::controller(TripController::class)->group(function(){
@@ -44,7 +45,6 @@ Route::middleware(['token.verify'])->group(function () {
         Route::post('/store-trips','storeTrips');
         Route::post('/store-trips','storeTrips');
         Route::get('/deleteTrip/{id}','deleteTrip');
-        Route::get('/search-trip','searchTrip');
     });
 });
 
