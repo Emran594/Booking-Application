@@ -15,16 +15,10 @@ class BussSeeder extends Seeder
     public function run()
     {
         DB::table('buss')->insert([
-            'bus_name' => 'Hino Volbo',
-            'model' => 'Model H-2359',
-            'driver_name' => 'Kamruzzaman',
+            'bus_name' => 'Hino 18',
+            'model' => 'Model 143',
+            'driver_name' => 'Kamrul',
             'phone' => '123-456-7890',
-        ]);
-        DB::table('buss')->insert([
-            'bus_name' => 'Atlas Hero',
-            'model' => 'Jht598',
-            'driver_name' => 'Akkas Mia',
-            'phone' => '987-654-3210',
         ]);
     }
 }

@@ -9,14 +9,14 @@ class LocationsSeeder extends Seeder
 {
     public function run()
     {
+        // Seed locations
         Location::create(['name' => 'Dhaka']);
         Location::create(['name' => 'Cumilla']);
         Location::create(['name' => 'Chittagong']);
-        Location::create(['name' => 'Coxs Bazar']);
-        Location::create(['name' => 'Sylhet']);
-        Location::create(['name' => 'Khulna']);
+        Location::create(['name' => 'Cox,s bazar']);
+        Location::create(['name' => 'Mymensings']);
+        Location::create(['name' => 'Gazipur']);
         Location::create(['name' => 'Rajshahi']);
-        Location::create(['name' => 'Mymensing']);
-        Location::create(['name' => 'Rangpur']);
+        Location::create(['name' => 'Khulna']);
     }
 }
