@@ -65,6 +65,7 @@
 
                     </div>
                     <div class="table-responsive table-card mb-1">
+                        @if (isset($trips) && count($trips) > 0)
                         <table class="table align-middle" id="customerTable">
                             <thead class="table-light text-muted">
                                 <tr>
@@ -74,13 +75,11 @@
                                     <th class="sort" data-sort="date">Destination</th>
                                     <th class="sort" data-sort="date">Bus Name</th>
                                     <th class="sort" data-sort="status">Fare</th>
-                                    <th class="sort" data-sort="status">Status</th>
                                     <th class="sort" data-sort="action">Action</th>
                                 </tr>
                             </thead>
                             <tbody class="list form-check-all">
-                                @if (isset($trips))
-                                    @foreach($trips as $trip)
+                                @foreach($trips as $trip)
                                     <tr>
                                         <td class="customer_name">{{ $trip->title }}</td>
                                         <td class="email">{{ $trip->date }}</td>
@@ -88,32 +87,22 @@
                                         <td class="date">{{ $trip->toLocation->name }}</td>
                                         <td class="date">{{ $trip->bus->bus_name }}</td>
                                         <td class="status">{{ $trip->fare }}</td>
-                                        <td class="status"><span class="badge bg-success-subtle text-success text-uppercase">{{ $trip->status }}</span></td>
                                         <td>
                                             <ul class="list-inline hstack gap-2 mb-0">
-                                                <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                                    <a href="">Edit</a>
-                                                </li>
                                                 <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
-                                                    <a href="{{ url('/deleteTrip', $trip->id) }}" onclick="return confirm('Are you sure you want to delete this trip?')">Delete</a>
+                                                    <a class="btn btn-success waves-effect waves-light" href="{{ url('/booked-seat', $trip->id) }}">Booked A Seat</a>
                                                 </li>
                                             </ul>
                                         </td>
                                     </tr>
-                                    @endforeach
-                                @endif
+                                @endforeach
                             </tbody>
                         </table>
-                        <div class="noresult" style="display: none">
-                            <div class="text-center">
-                                <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#25a0e2,secondary:#00bd9d" style="width:75px;height:75px">
-                                </lord-icon>
-                                <h5 class="mt-2">Sorry! No Result Found</h5>
-                                <p class="text-muted mb-0">We've searched more than 150+ TRIPS
-                                    We did not find any
-                                    TRIPS for you search.</p>
-                            </div>
-                        </div>
+                    @else
+                    <div class="alert alert-danger border-0 mb-xl-0" role="alert">
+                        <strong> There Is NO Trip  </strong> Available Now
+                    </div>
+                    @endif
                     </div>
             </div>
         </div>

@@ -36,10 +36,11 @@ class UserController extends Controller
         $trips = Trip::where('date', $date)
         ->where('from_location', $from_location)
         ->where('to_location', $to_location)
+        ->where('status','active')
         ->get();
         $locations = Location::all();
 
-         return view('pages.user.index', compact('trips','locations'));
+        return view('pages.user.index', compact('trips','locations'));
     }
 
     public function forgotPassword(){
