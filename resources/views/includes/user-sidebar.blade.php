@@ -36,8 +36,8 @@
                     </a>
                 </div>
                 <div class="nav-item">
-                    <a class="nav-link menu-link" href="{{ url('/') }}">
-                        <i data-feather="activity" class="layers"></i> Make Trip
+                    <a class="nav-link menu-link" href="{{ url('/booking-history') }}">
+                        <i data-feather="activity" class="layers"></i> My Booking History
                     </a>
                 </div>
                 <li class="nav-item">

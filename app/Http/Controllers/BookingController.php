@@ -50,7 +50,19 @@ class BookingController extends Controller
         $booking->save();
 
         // Redirect or return a response
-        return redirect()->back()->with('success', 'Booking confirmed successfully!');
+        return redirect('/booking-history')->with('success', 'Booking confirmed successfully!');
+    }
+
+
+    public function history(Request $request){
+        // Get the current authenticated user
+        $user_id=$request->header('id');
+
+        // Retrieve booking history for the user
+        $bookings = Booking::where('user_id', $user_id)->get();
+
+        return view('pages.user.history', compact('bookings'));
+
     }
 
 }

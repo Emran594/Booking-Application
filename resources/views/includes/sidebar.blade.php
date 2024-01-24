@@ -32,7 +32,7 @@
             <ul class="navbar-nav" id="navbar-nav">
                 <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                 <div class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarDashboards">
+                    <a class="nav-link menu-link" href="{{ url('/admindashboard') }}">
                         <i data-feather="home" class="icon-dual"></i> Dashboards
                     </a>
                 </div>

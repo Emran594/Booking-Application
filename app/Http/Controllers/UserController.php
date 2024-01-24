@@ -78,13 +78,11 @@ class UserController extends Controller
         $user = User::where('email', $request->input('email'))
             ->where('password', $request->input('password'))
             ->first();
-
+    
         if ($user !== null) {
             // User Login -> JWT Token Issue
-            // Update the UserLogin function in UserController
-            $token=JWTToken::CreateToken($request->input('email'),$user->id);
-
-
+            $token = JWTToken::CreateToken($request->input('email'), $user->id);
+    
             if ($user->role == 1) {
                 // Redirect to user dashboard
                 return redirect('/userdashboard')->withCookie(cookie('token', $token, time() + 60 * 24 * 30));
@@ -99,12 +97,11 @@ class UserController extends Controller
                 ], 200);
             }
         } else {
-            return response()->json([
-                'status' => 'failed',
-                'message' => 'Unauthorized',
-            ], 200);
+            // Redirect to home with error message
+            return redirect('/')->with('error', 'Invalid credentials');
         }
     }
+    
 
     function UserLogout(){
         return redirect('/')->cookie('token','',-1);

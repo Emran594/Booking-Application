@@ -4,7 +4,9 @@
             <h5 class="text-primary">Welcome Back !</h5>
             <p class="text-muted">Sign in to continue to Bookie.</p>
         </div>
-
+        @if(session('error'))
+        @include('aleart.error')
+        @endif
         <div class="mt-4">
             <form action="{{ url("/user-login") }}" method="POST">
                 @csrf

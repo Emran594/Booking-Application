@@ -52,5 +52,6 @@ Route::middleware(['token.verify'])->group(function () {
 Route::middleware(['token.verify'])->group(function(){
     Route::get('/booked-seat/{id}',[BookingController::class,'index']);
     Route::post('/confirm-booking',[BookingController::class,'storeBooking']);
+    Route::get('/booking-history',[BookingController::class,'history']);
 });
 
