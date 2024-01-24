@@ -32,7 +32,7 @@
                 </div>
                 <div class="mt-sm-5 mt-4">
                     <h6 class="text-muted text-uppercase fw-semibold">BUS MODEL: {{ $trip->bus->bus_name }}</h6>
-                    <h6 id="base_fare" class="text-muted text-uppercase fw-semibold">BUS FARE: {{ $trip->fare }}</h6>
+                    <h6 class="text-muted text-uppercase fw-semibold">Fare: <span id="base_fare">{{ $trip->fare }}</span></h6>
                     <h6 class="text-muted text-uppercase fw-semibold">DESTINATION: {{ $trip->fromLocation->name }} TO {{ $trip->toLocation->name }}</h6>
                 </div>
             </div>
@@ -44,16 +44,23 @@
                 <div class="row g-3">
                     <div class="col-xl-6">
                         <input type="hidden" value="{{ $trip->id }}" name="trip_id">
-                        {{-- <input type="hidden" value="{{ auth()->user()->id }}" name="user_id"> --}}
-                        @foreach($trip->bus->seats as $seat)
-                            <div class="form-check mb-3">
-                                <input class="form-check-input seat-checkbox" type="checkbox" id="formCheck{{ $seat->id }}" name="selected_seats[]" value="{{ $seat->id }}">
-                                <label class="form-check-label" for="formCheck{{ $seat->id }}">
-                                    {{ $seat->name }}
-                                </label>
-                            </div>
+                        <input type="hidden" value="{{ $user_id }}" name="user_id">
+                        @foreach($trip->bus->seats->where('status', 'available') as $seat)
+                        <div class="form-check mb-3">
+                            <input class="form-check-input seat-checkbox" type="checkbox"
+                                   id="formCheck{{ $seat->id }}"
+                                   name="selected_seats[]"
+                                   value="{{ $seat->id }}"
+                                   data-seat-name="{{ $seat->name }}"
+                                   data-seat-number="{{ $seat->number }}">
+                            <label class="form-check-label" for="formCheck{{ $seat->id }}">
+                                {{ $seat->name }}
+                            </label>
+                        </div>
                         @endforeach
-                        <input type="text" value="" name="total_fare" id="total_fare" readonly>
+
+
+                        <input type="text" value="" class="form-control" name="total_fare" id="total_fare" readonly>
                     </div>
                     <div class="input-group">
                         <div class="col-xl-6">
@@ -63,29 +70,26 @@
                 </div>
             </form>
         </div>
-        
+
     </div>
     <!-- container-fluid -->
 </div>
 
-
 @endsection
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    // Function to calculate total fare based on selected seats
-    function calculateTotalFare() {
-        var baseFare = parseFloat(document.getElementById('base_fare').value);
-        var selectedSeats = document.querySelectorAll('.seat-checkbox:checked').length;
+    $(document).ready(function() {
+        $('.seat-checkbox').change(function() {
+            calculateTotalFare();
+        });
 
-        var totalFare = baseFare * selectedSeats;
-
-        // Update the total fare input field
-        document.getElementById('total_fare').value = totalFare.toFixed(2);
-    }
-
-    // Attach the function to the change event of checkboxes
-    var seatCheckboxes = document.querySelectorAll('.seat-checkbox');
-    seatCheckboxes.forEach(function(checkbox) {
-        checkbox.addEventListener('change', calculateTotalFare);
+        function calculateTotalFare() {
+            var selectedSeats = $('.seat-checkbox:checked');
+            var baseFare = parseFloat($('#base_fare').text());
+            var totalFare = baseFare * selectedSeats.length;
+            $('#total_fare').val(totalFare.toFixed(2));
+        }
     });
 </script>
+

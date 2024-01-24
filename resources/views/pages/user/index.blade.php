@@ -64,9 +64,9 @@
 
 
                     </div>
-                    <div class="table-responsive table-card mb-1">
+                    <div class="table-responsive table-card col-md-10">
                         @if (isset($trips) && count($trips) > 0)
-                        <table class="table align-middle" id="customerTable">
+                        <table class="table align-middle">
                             <thead class="table-light text-muted">
                                 <tr>
                                     <th class="sort" data-sort="customer_name">Trip Title</th>
