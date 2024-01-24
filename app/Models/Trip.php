@@ -26,9 +26,7 @@ class Trip extends Model
     {
         return $this->belongsTo(Location::class, 'to_location');
     }
-
-    public function bus()
-    {
-        return $this->belongsTo(Bus::class, 'bus_id');
-    }
+    public function bus(){
+    return $this->belongsTo(Bus::class);
+}
 }

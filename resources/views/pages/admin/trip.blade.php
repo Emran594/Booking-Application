@@ -113,10 +113,10 @@
                                             <td>
                                                 <ul class="list-inline hstack gap-2 mb-0">
                                                     <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
-                                                        <a href="">Edit</a>
+                                                        <a href=""> <i class="ri-pencil-fill"></i></a>
                                                     </li>
                                                     <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Remove">
-                                                        <a href="{{ url('/deleteTrip', $trip->id) }}" onclick="return confirm('Are you sure you want to delete this trip?')">Delete</a>
+                                                        <a href="{{ url('/deleteTrip', $trip->id) }}" onclick="return confirm('Are you sure you want to delete this trip?')"><i class="ri-delete-bin-2-fill"></i></a>
                                                     </li>
                                                 </ul>
                                             </td>

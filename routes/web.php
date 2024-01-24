@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\TripController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\TokenVerificationMiddleware;
@@ -46,5 +47,9 @@ Route::middleware(['token.verify'])->group(function () {
         Route::post('/store-trips','storeTrips');
         Route::get('/deleteTrip/{id}','deleteTrip');
     });
+});
+
+Route::middleware(['token.verify'])->group(function(){
+    Route::get('/booked-seat/{id}',[BookingController::class,'index']);
 });
 

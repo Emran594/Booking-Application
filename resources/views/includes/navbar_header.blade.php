@@ -599,7 +599,7 @@
               >
                 <div class="d-flex align-items-center">
                   <img
-                    src="assets/images/products/img-3.png"
+                    src="{{ asset("assets/images/products/img-3.png") }}"
                     class="me-3 rounded-circle avatar-sm p-2 bg-light"
                     alt="user-pic"
                   />
@@ -637,7 +637,7 @@
               >
                 <div class="d-flex align-items-center">
                   <img
-                    src="assets/images/products/img-6.png"
+                    src="{{ asset("assets/images/products/img-6.png") }}"
                     class="me-3 rounded-circle avatar-sm p-2 bg-light"
                     alt="user-pic"
                   />
@@ -674,7 +674,7 @@
               >
                 <div class="d-flex align-items-center">
                   <img
-                    src="assets/images/products/img-5.png"
+                    src="{{ asset("assets/images/products/img-5.png") }}"
                     class="me-3 rounded-circle avatar-sm p-2 bg-light"
                     alt="user-pic"
                   />

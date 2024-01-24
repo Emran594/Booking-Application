@@ -18,4 +18,11 @@ class Bus extends Model
 
     protected $table = 'buss';
 
+    public function seats()
+    {
+        return $this->hasMany(Seat::class);
+        // Adjust the relationship type and model accordingly
+        
+    }
+
 }
