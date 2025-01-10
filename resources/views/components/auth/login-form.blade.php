@@ -5,7 +5,7 @@
             <p class="text-muted">Sign in to continue to Bookie.</p>
         </div>
         @if(session('error'))
-        @include('aleart.error')
+        @include('components.aleart.error')
         @endif
         <div class="mt-4">
             <form action="{{ url("/user-login") }}" method="POST">

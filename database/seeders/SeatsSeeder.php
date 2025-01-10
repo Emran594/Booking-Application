@@ -9,11 +9,15 @@ class SeatsSeeder extends Seeder
 {
     public function run()
     {
-        // Seed seats
-        Seat::create(['name' => 'A1', 'bus_id' => 1]);
-        Seat::create(['name' => 'A2', 'bus_id' => 1]);
-        Seat::create(['name' => 'A3', 'bus_id' => 1]);
-        Seat::create(['name' => 'A4', 'bus_id' => 1]);
-        // Add more seats as needed
+        $seatsPerBus = 40;
+        $busIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    
+        // Loop through each bus
+        foreach ($busIds as $busId) {
+            for ($i = 1; $i <= $seatsPerBus; $i++) {
+                $seatName = 'A' . $i;
+                Seat::create(['name' => $seatName, 'bus_id' => $busId]);
+            }
+        }
     }
 }
